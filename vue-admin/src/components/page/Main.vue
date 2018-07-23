@@ -4,7 +4,7 @@
             <!--顶部容器-->
             <el-header class="jsp-header">
                 <div class="logo">
-                    技术云
+                    百姓管理
                 </div>
 
                 <div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+    
     export default {
        data() {
            return {
