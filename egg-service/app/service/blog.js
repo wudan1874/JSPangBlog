@@ -3,7 +3,7 @@ const Service = require('egg').Service
 class BlogService extends Service{
    
 
-    async addBlog(title,content,topImage,introduction){
+    async addBlog(blogID,title,content,topImage,introduction){
         // 获得当前时间，并进行存储
        
 
@@ -27,6 +27,7 @@ class BlogService extends Service{
 
         const result = await this.app.mysql.insert('jspang_Blog',
         {
+            blogID:blogID,
             title:title,
             content:content,
             createDate:createDate,

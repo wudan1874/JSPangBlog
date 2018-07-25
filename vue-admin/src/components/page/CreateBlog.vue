@@ -53,6 +53,7 @@
          components: { mavonEditor   },
          data() {
              return {
+                 blogID:'',            //文章ID，由前端生成
                  title:'',             //文章标题
                  content:'',           //文章内容
                  topImage:'',          //头图图片路径
@@ -62,6 +63,11 @@
          },
          created(){
              this.getCategory()
+             this.blogID = this.createRandomId()  //得到文章ID
+               
+            
+
+
          },
          methods: {
 
@@ -85,7 +91,10 @@
                  console.log('selecCategory:'+this.selecCategory)
                  console.log('topImage:'+this.topImage)
                  console.log('content:'+this.content)
+
                  const isOk = this.validate()
+                 //通过验证，向数据库中写入数据
+                 if(isOk){ }
              },
 
              //验证提交条件是否完整
@@ -106,6 +115,10 @@
                       this.$message('验证通过，开始请求服务器保存数据');
                       return true;
                  }
+             },
+             //生成随机不重复的ID
+             createRandomId(){
+                   return (Math.random()*10000000).toString(16).substr(0,4)+'-'+(new Date()).getTime()+'-'+Math.random().toString().substr(2,5);
              }
          },
                

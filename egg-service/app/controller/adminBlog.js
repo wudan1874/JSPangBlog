@@ -12,7 +12,17 @@ class BlogController extends Controller {
   }
   //后台添加文章的方法
   async createBlog(){
-    //获取前台参数
+      //获取前台参数
+      let blogID = this.ctx.request.body.blogID
+      let title =  this.ctx.request.body.title
+      let content =  this.ctx.request.body.content
+      let topImage =  this.ctx.request.body.topImage
+      let introduction =  this.ctx.request.body.introduction
+
+      
+      const result = await this.service.blog.addBlog(blogID,title,content,topImage,introduction)
+      this.ctx.body = result
+
   }
 }
 
