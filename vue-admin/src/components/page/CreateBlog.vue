@@ -1,6 +1,6 @@
 <template>
     <div class="mainDiv">
-       <div class="" >
+       <div  >
            <el-breadcrumb separator-class="el-icon-arrow-right" class="breadnav">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item>添加文章</el-breadcrumb-item> 
@@ -16,7 +16,7 @@
                         v-for="(item,index) in categoryList" 
                         :key="index"
                         :label="item.category_name"
-                        :value="item.category_name"
+                        :value="item.ID"
                     >
 
                     </el-option>
@@ -31,11 +31,9 @@
             <div>
                 <mavon-editor v-model="content" class="mavon-editor" style="width: 100%;"></mavon-editor>
             </div>
-            
-
-            
+                    
             <div>
-                <el-button type="success" @click="createCategory" >发布文章</el-button>
+                <el-button type="success" @click="clickButton" >{{buttonText}}</el-button>
             </div>
         </div>
     </div>
@@ -59,6 +57,8 @@
                  topImage:'',          //头图图片路径
                  categoryList: [],     //文章分类数组
                  selecCategory:'',     //选择的类别
+                 isNew:true,           //是否是新文章
+                 buttonText:'发布文章', //按钮显示文字
              }
          },
          created(){
@@ -83,18 +83,70 @@
                      console.log(error)
                  })
              },
-
-             //发布文章
-             createCategory(){
-                 
+             //点击保存或完成按钮去
+             clickButton(){
                  console.log('title:'+this.title)
                  console.log('selecCategory:'+this.selecCategory)
                  console.log('topImage:'+this.topImage)
                  console.log('content:'+this.content)
+                 console.log('blogID:'+this.blogID)
+                 if(this.isNew){
+                     this.createCategory()
+                 }else{
+                     this.updateBlog()
+                 }
 
+             },
+
+             //发布文章
+             createCategory(){
+                 
+                
                  const isOk = this.validate()
                  //通过验证，向数据库中写入数据
-                 if(isOk){ }
+                 if(isOk){ 
+                    //利用axios向后台写入数据
+
+                    axios.post(config.createBlog, {
+                        blogID: this.blogID,
+                        categoryID:this.selecCategory,
+                        title: this.title,
+                        content: this.content,
+                        topImage: this.topImage,
+                        introduction:''
+                    })
+                    .then( (response)=> {
+                       this.isNew=false;
+                       this.buttonText="修改文章"
+                       this.$message.success(response.data)
+                    })
+                    .catch((error)=>{
+                        console.log(error);
+                    });
+                 }
+             },
+             //更新文章
+             updateBlog(){
+                 const isOk = this.validate()
+                if(isOk){ 
+                    //利用axios向后台写入数据
+                    axios.post(config.updateBlog, {
+                        blogID: this.blogID,
+                        categoryID:this.selecCategory,
+                        title: this.title,
+                        content: this.content,
+                        topImage: this.topImage,
+                        introduction:''
+                    })
+                    .then( (response)=> {
+                        
+                       this.$message.success(response.data)
+                    })
+                    .catch((error)=>{
+                        console.log(error);
+                    });
+                 }
+
              },
 
              //验证提交条件是否完整
@@ -105,10 +157,10 @@
                  }else if(this.selecCategory<1){
                      this.$message.error('必须选择文章分类')
                      return false;
-                 }else if(this.topImage<1){
+                 }else if(this.topImage.length<1){
                      this.$message.error('文章的头图必须填写')
                      return false;
-                 }else if(this.content<1){
+                 }else if(this.content.length<1){
                      this.$message.error('文章内容不能为空')
                      return false;
                  }else{

@@ -8,5 +8,7 @@ module.exports = app => {
   router.get('/', controller.home.index);
   router.get('/user/adduser', controller.user.addUser);
   router.get('/admin/category/getall', controller.category.getAll);
-  router.post('/admin/blog/createBlog', controller.adminBlog.createBlog);
+  router.post('/admin/blog/createBlog', controller.adminBlog.createBlog);    //后台增加新博客
+  router.post('/admin/blog/updateBlog', controller.adminBlog.updateBlog);    //后台修改博客
+  router.get('/admin/blog/getBlogList', controller.adminBlog.getBlogList);    //后台所有文章的列表
 };

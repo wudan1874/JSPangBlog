@@ -17,13 +17,36 @@ class BlogController extends Controller {
       let title =  this.ctx.request.body.title
       let content =  this.ctx.request.body.content
       let topImage =  this.ctx.request.body.topImage
-      let introduction =  this.ctx.request.body.introduction
+      let introduction =  this.ctx.request.body.introduction?this.ctx.request.body.introduction:''
+      let categoryID = this.ctx.request.body.categoryID
 
       
-      const result = await this.service.blog.addBlog(blogID,title,content,topImage,introduction)
+      const result = await this.service.blog.addBlog(blogID,categoryID,title,content,topImage,introduction)
       this.ctx.body = result
 
   }
+
+  //修改后台文章的方法
+  async updateBlog(){
+
+    let blogID = this.ctx.request.body.blogID
+    let title =  this.ctx.request.body.title
+    let content =  this.ctx.request.body.content
+    let topImage =  this.ctx.request.body.topImage
+    let introduction =  this.ctx.request.body.introduction?this.ctx.request.body.introduction:''
+    let categoryID = this.ctx.request.body.categoryID
+
+    const result = await this.service.blog.updateBlog(blogID,categoryID,title,content,topImage,introduction)
+    this.ctx.body = result
+
+  }
+
+  //得到所有博客的列表
+  async getBlogList(){
+    const result = await this.service.blog.getBlogList()
+    this.ctx.body = result
+  }
+
 }
 
 module.exports = BlogController;
