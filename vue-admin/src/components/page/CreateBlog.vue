@@ -8,7 +8,11 @@
        </div>
         <div>
             <div class="blog-top">
-                <div class="bt-one"><el-input v-model="title" placeholder="文章标题"></el-input></div>
+                <div class="bt-one">
+                    <el-input v-model="title" placeholder="文章标题">
+                         <template slot="prepend">文章标题</template>
+                    </el-input>
+                    </div>
                 <div class="bt-two"> 
                     <el-select 
                     v-model="selecCategory" placeholder="请选择"  >
@@ -24,12 +28,19 @@
                 </div>
             </div>
             <div class="topImage">
-                <div class="ti-one">头图路径：</div>
-                <div class="ti-two"><el-input v-model="topImage" placeholder="填写路径"></el-input></div>
+               
+              <el-input v-model="topImage" placeholder="填写路径">
+                   <template slot="prepend">头图路径</template>
+             </el-input>
             </div>
             
             <div>
                 <mavon-editor v-model="content" class="mavon-editor" style="width: 100%;"></mavon-editor>
+            </div>
+            <div>
+                文章简介:
+                 <el-input type="textarea" style="width:90%" v-model="introduction" >{{introduction}}</el-input>
+
             </div>
                     
             <div>
@@ -57,13 +68,28 @@
                  topImage:'',          //头图图片路径
                  categoryList: [],     //文章分类数组
                  selecCategory:'',     //选择的类别
+                 introduction:'',      //文章简介
                  isNew:true,           //是否是新文章
                  buttonText:'发布文章', //按钮显示文字
              }
          },
          created(){
+
+             this.blogID = this.$route.params.blogID ? this.$route.params.blogID : '';
              this.getCategory()
-             this.blogID = this.createRandomId()  //得到文章ID
+
+             if(this.blogID){
+                 this.isNew = false;
+                 this.buttonText='保存文章'
+                 console.log('this.blogID:'+this.blogID)
+                 this.getBlogContent()
+
+             }else{
+                 this.blogID = this.createRandomId()  //得到文章ID
+             }
+
+             
+             
                
             
 
@@ -113,7 +139,7 @@
                         title: this.title,
                         content: this.content,
                         topImage: this.topImage,
-                        introduction:''
+                        introduction:this.introduction
                     })
                     .then( (response)=> {
                        this.isNew=false;
@@ -136,7 +162,7 @@
                         title: this.title,
                         content: this.content,
                         topImage: this.topImage,
-                        introduction:''
+                        introduction:this.introduction
                     })
                     .then( (response)=> {
                         
@@ -171,7 +197,28 @@
              //生成随机不重复的ID
              createRandomId(){
                    return (Math.random()*10000000).toString(16).substr(0,4)+'-'+(new Date()).getTime()+'-'+Math.random().toString().substr(2,5);
-             }
+             },
+
+            //根据ID查找出文章内容，并进行赋值
+            getBlogContent(){
+                axios.post(config.getBlogContent,{
+                    blogID:this.blogID
+                })
+                .then( (response)=> {
+                   console.log(response)
+                
+                   this.title=response.data.Title
+                   this.content=response.data.Content
+                   this.topImage=response.data.TopImage
+                   this.selecCategory=response.data.categoryID
+                   this.introduction=response.data.Introduction
+
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+            }
+
          },
                
          
@@ -189,7 +236,8 @@
         height: 500px;
     }
     .mainDiv{
-        margin:5px;
+       
+        width: 100%;
     }
     .mainDiv div{
         padding:2px;

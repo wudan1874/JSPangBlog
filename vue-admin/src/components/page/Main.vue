@@ -13,7 +13,7 @@
 
             </el-header>
             <!--侧边栏-->   
-            <div>
+            <div class="dd-main">
                  <div id="jsp-aside" >
                     <ul>
                         <li @click="goUrl(0,'CreateBlog')" :class="{navActive:urlActiveIndex == 0}">写新文章</li>
@@ -64,13 +64,15 @@
 </script>
 
 <style scoped>
+    .dd-main{
+        display: flex;
+        flex-direction: row;
+
+    }
     .jsp-header{
         background-color: #1d2b40;
     }
-    #jsp-aside{
-        background-color:rgb(41, 66, 101);
-      
-    }
+   
     .logo{
         font-size:28px;
         color:#FFF;
@@ -78,7 +80,8 @@
         line-height: 60px;
     }
     #jsp-aside{
-        float: left;
+        background-color:rgb(41, 66, 101);
+       
         width:160px;
     }
     #jsp-aside ul{
@@ -94,7 +97,8 @@
         cursor:pointer;
    }
    #jsp-main{
-       float: left;
+
+       
    }
    .navActive{
        background-color: rgb(157, 171, 194) !important;

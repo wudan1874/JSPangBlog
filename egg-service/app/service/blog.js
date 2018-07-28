@@ -92,12 +92,34 @@ class BlogService extends Service{
 
     //后台的博客文章列表
     async getBlogList(){
-        const results = await this.app.mysql.select('jspang_Blog',{
-            columns:['BlogID','categoryID','Title','CreateDate','UpdateDate','Visit'],
-            orders:[['ID','desc']]
-        })
+        const sql = "select b.BlogID,c.category_name,b.Title,b.CreateDate,b.UpdateDate,b.Visit"+ 
+        " from jspang_Blog b LEFT JOIN jspang_category c ON b.categoryID = c.ID ORDER BY b.ID DESC"
+        // const results = await this.app.mysql.select('jspang_Blog',{
+        //     columns:['BlogID','categoryID','Title','CreateDate','UpdateDate','Visit'],
+        //     orders:[['ID','desc']]
+        // })
+
+        const results = await this.app.mysql.query(sql)
+
         return results
     }
+
+    //根据ID删除文章的方法
+    async deleteBlog(blogID){
+
+        const result = await this.app.mysql.delete('jspang_Blog',{BlogID:blogID})
+        return result
+    }
+
+    //根据文章ID，得到文章内容
+    async getBlogContent(blogID){
+
+         const post = await this.app.mysql.get('jspang_Blog',{BlogID:blogID})
+         return post
+        
+    }
+
+
 }
 
 module.exports = BlogService

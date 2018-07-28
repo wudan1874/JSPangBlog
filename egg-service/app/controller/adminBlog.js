@@ -33,7 +33,7 @@ class BlogController extends Controller {
     let title =  this.ctx.request.body.title
     let content =  this.ctx.request.body.content
     let topImage =  this.ctx.request.body.topImage
-    let introduction =  this.ctx.request.body.introduction?this.ctx.request.body.introduction:''
+    let introduction =  this.ctx.request.body.introduction 
     let categoryID = this.ctx.request.body.categoryID
 
     const result = await this.service.blog.updateBlog(blogID,categoryID,title,content,topImage,introduction)
@@ -45,6 +45,21 @@ class BlogController extends Controller {
   async getBlogList(){
     const result = await this.service.blog.getBlogList()
     this.ctx.body = result
+  }
+
+  //根据ID删除博客文章
+  async deleteBlog(){
+
+    let blogID =this.ctx.request.body.blogID
+    const result = await this.service.blog.deleteBlog(blogID)
+    this.ctx.body = result
+
+  }
+  //根据文章ID查出文章内容
+  async getBlogContent(){
+    let blogID = this.ctx.request.body.blogID
+    const result = await this.service.blog.getBlogContent(blogID)
+    this.ctx.body = result 
   }
 
 }
