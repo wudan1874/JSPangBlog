@@ -67,13 +67,16 @@
                  content:'',           //文章内容
                  topImage:'',          //头图图片路径
                  categoryList: [],     //文章分类数组
-                 selecCategory:'',     //选择的类别
+                 selecCategory :'',     //选择的类别
                  introduction:'',      //文章简介
                  isNew:true,           //是否是新文章
                  buttonText:'发布文章', //按钮显示文字
+                 userInfo:{}           //用户信息
              }
          },
          created(){
+
+             this.getUserInfo() //获取用户信息
 
              this.blogID = this.$route.params.blogID ? this.$route.params.blogID : '';
              this.getCategory()
@@ -96,7 +99,14 @@
 
          },
          methods: {
-
+            //获取用户本地信息
+            getUserInfo(){
+                if(localStorage.userInfo){
+                    this.userInfo=JSON.parse(localStorage.userInfo)
+                }else{
+                     this.$router.push({name:'Login'})
+                }
+            },
              //获取文章分类
              getCategory() {
                  axios.get(config.getCategoryList)
@@ -139,12 +149,19 @@
                         title: this.title,
                         content: this.content,
                         topImage: this.topImage,
-                        introduction:this.introduction
+                        introduction:this.introduction,
+                        userName:this.userInfo.userName,
+                        tokenID:this.userInfo.tokenID
                     })
                     .then( (response)=> {
-                       this.isNew=false;
-                       this.buttonText="修改文章"
-                       this.$message.success(response.data)
+                        if(response.data){
+                            this.isNew=false;
+                            this.buttonText="修改文章"
+                            this.$message.success(response.data)
+                        }else{
+                             this.$router.push({name:'Login'}) 
+                        }
+                       
                     })
                     .catch((error)=>{
                         console.log(error);
@@ -162,11 +179,17 @@
                         title: this.title,
                         content: this.content,
                         topImage: this.topImage,
-                        introduction:this.introduction
+                        introduction:this.introduction,
+                        userName:this.userInfo.userName,
+                        tokenID:this.userInfo.tokenID
                     })
                     .then( (response)=> {
-                        
-                       this.$message.success(response.data)
+                         if(response.data){
+                            this.$message.success(response.data)
+                         }else{
+                            this.$router.push({name:'Login'}) 
+                         }
+                      
                     })
                     .catch((error)=>{
                         console.log(error);

@@ -7,8 +7,8 @@
                     百姓管理
                 </div>
 
-                <div>
-                   
+                <div class="operation-tool">
+                    <el-button @click="userOut" type="primary" plain size="small">退出登录</el-button>
                 </div>
 
             </el-header>
@@ -16,8 +16,9 @@
             <div class="dd-main">
                  <div id="jsp-aside" >
                     <ul>
-                        <li @click="goUrl(0,'CreateBlog')" :class="{navActive:urlActiveIndex == 0}">写新文章</li>
-                        <li @click="goUrl(1,'ManageBlog')" :class="{navActive:urlActiveIndex == 1}">管理文章</li>
+                        
+                        <li @click="goUrl(0,'ManageBlog')" :class="{navActive:urlActiveIndex == 0}">管理文章</li>
+                        <li @click="goUrl(1,'CreateBlog')" :class="{navActive:urlActiveIndex == 1}">写新文章</li>
                         <li @click="goUrl(2,'LeavingMessage')" :class="{navActive:urlActiveIndex == 2}">回复留言</li>
                         <li @click="goUrl(3,'DashBoard')" :class="{navActive:urlActiveIndex == 3}">统计查看</li>
                     </ul>
@@ -58,6 +59,11 @@
                 this.urlActiveIndex=index;
                 console.log( this.urlActiveIndex)
                 this.$router.push({name:path})
+            },
+            //退出登录
+            userOut(){
+                localStorage.removeItem('userInfo')
+                this.$router.push({name:'Login'})
             }
         },
     }
@@ -70,7 +76,10 @@
 
     }
     .jsp-header{
+        display: flex;
+        flex-direction: row;
         background-color: #1d2b40;
+        border-bottom:1px solid #E4E7ED;
     }
    
     .logo{
@@ -78,6 +87,12 @@
         color:#FFF;
         float: left;
         line-height: 60px;
+        flex: 2;
+    }
+    .operation-tool{
+        flex: 1;
+        padding-top:15px;
+        text-align: right;
     }
     #jsp-aside{
         background-color:rgb(41, 66, 101);

@@ -16,6 +16,7 @@ export default new Router({
       path: '/Main',
       component: Main,
       children:[
+        {path:'/',name:'ManageBlog',component:ManageBlog},
         {path:'/Main/CreateBlog',name:'CreateBlog',component:CreateBlog},
         {path:'/Main/ManageBlog',name:'ManageBlog',component:ManageBlog},
         {path:'/Main/LeavingMessage',name:'LeavingMessage',component:LeavingMessage},

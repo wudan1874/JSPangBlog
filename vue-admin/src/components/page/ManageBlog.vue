@@ -36,26 +36,47 @@
     export default {
         data() {
             return {
-                blogList: []
+                blogList: [],
+                userInfo:{}    //用户信息
             }
         },
         created() {
             this.getList()
         },
         methods: {
+            //获取用户本地信息
+            getUserInfo(){
+                if(localStorage.userInfo){
+                    this.userInfo=JSON.parse(localStorage.userInfo)
+                }else{
+                     this.$router.push({name:'Login'})
+                }
+            },
             //获得文章列表
             getList() {
-                
-                
-                    axios.get(config.getBlogList)
-                    .then( (response)=> {
-                       //this.$message.success(response.data)
-                       this.blogList=response.data
-                        console.log(response)
-                    })
-                    .catch((error)=>{
-                        console.log(error);
-                    })
+
+                        this.getUserInfo() //获取用户信息
+                       
+                        axios.post(config.getBlogList,{
+                            userName:this.userInfo.userName,
+                            tokenID:this.userInfo.tokenID
+                        })
+                        .then( (response)=> {
+                            console.log(response)
+                       
+                            if(response.data){
+                                this.blogList=response.data
+                            }else{
+                                this.$router.push({name:'Login'})
+                            }
+                            
+                          
+                        })
+                        .catch((error)=>{
+                            console.log(error);
+                        })
+  
+                   
 
 
             },
@@ -83,15 +104,24 @@
              //删除文章的执行方法
             deleteBlogAction(index,blogID){
                 axios.post(config.deleteBlog,{
-                    blogID:blogID
+                    blogID:blogID,
+                    userName:this.userInfo.userName,
+                    tokenID:this.userInfo.tokenID
                 })
                 .then( (response)=> {
-                    this.blogList.splice(index,1)
+
+                    if(response.data){
+                         this.blogList.splice(index,1)
+                          this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }else{
+                        this.$router.push({name:'Login'})
+                    }
+                   
                 
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                   
                 })
                 .catch((error)=>{
                     console.log(error);

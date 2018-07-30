@@ -19,9 +19,14 @@ class BlogController extends Controller {
       let topImage =  this.ctx.request.body.topImage
       let introduction =  this.ctx.request.body.introduction?this.ctx.request.body.introduction:''
       let categoryID = this.ctx.request.body.categoryID
-
+      let userName = this.ctx.request.body.userName
+      let tokenID = this.ctx.request.body.tokenID
+      let result = await this.service.user.comparisonTokenID(userName,tokenID)
+      if(result){
+        result = await this.service.blog.addBlog(blogID,categoryID,title,content,topImage,introduction)
+      }
       
-      const result = await this.service.blog.addBlog(blogID,categoryID,title,content,topImage,introduction)
+       
       this.ctx.body = result
 
   }
@@ -35,15 +40,26 @@ class BlogController extends Controller {
     let topImage =  this.ctx.request.body.topImage
     let introduction =  this.ctx.request.body.introduction 
     let categoryID = this.ctx.request.body.categoryID
-
-    const result = await this.service.blog.updateBlog(blogID,categoryID,title,content,topImage,introduction)
+    let userName = this.ctx.request.body.userName
+    let tokenID = this.ctx.request.body.tokenID
+    let result = await this.service.user.comparisonTokenID(userName,tokenID)
+    if(result){
+      result = await this.service.blog.updateBlog(blogID,categoryID,title,content,topImage,introduction)
+    }
+    
     this.ctx.body = result
 
   }
 
   //得到所有博客的列表
   async getBlogList(){
-    const result = await this.service.blog.getBlogList()
+    let userName = this.ctx.request.body.userName
+    let tokenID = this.ctx.request.body.tokenID
+    let result = await this.service.user.comparisonTokenID(userName,tokenID)
+    if(result){
+      result = await this.service.blog.getBlogList()
+    }
+    
     this.ctx.body = result
   }
 
@@ -51,7 +67,13 @@ class BlogController extends Controller {
   async deleteBlog(){
 
     let blogID =this.ctx.request.body.blogID
-    const result = await this.service.blog.deleteBlog(blogID)
+    let userName = this.ctx.request.body.userName
+    let tokenID = this.ctx.request.body.tokenID
+    let result = await this.service.user.comparisonTokenID(userName,tokenID)
+    if(result){
+       result = await this.service.blog.deleteBlog(blogID)
+    }
+   
     this.ctx.body = result
 
   }
