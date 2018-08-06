@@ -1,6 +1,31 @@
 const Service = require('egg').Service
 
 class BlogService extends Service{
+
+
+    //前台获得文章列表
+    async webGetBlogList(){
+        const sql = "select b.TopImage,b.BlogID,c.category_name,b.Title,DATE_FORMAT(b.CreateDate,'%Y-%m-%d %h:%i:%s') as CreateDate,b.UpdateDate,b.Visit,b.Introduction"+ 
+        " from jspang_Blog b LEFT JOIN jspang_category c ON b.categoryID = c.ID ORDER BY b.ID DESC"
+        
+        const results = await this.app.mysql.query(sql)
+
+        return results
+
+    }
+
+    //前台根据文章ID获得文章详细
+    async webGetBlogContent(blogID){
+
+        const sql = "select b.Content,b.TopImage,b.BlogID,c.category_name,b.Title,DATE_FORMAT(b.CreateDate,'%Y-%m-%d %h:%i:%s') as CreateDate,b.UpdateDate,b.Visit,b.Introduction"+ 
+        " FROM jspang_Blog b LEFT JOIN jspang_category c ON b.categoryID = c.ID "+
+        " WHERE b.BlogID="+blogID
+
+        const result = await this.app.mysql.query(sql)
+        return result
+       
+   }
+
    
     //后台增加博客文章
     async addBlog(blogID,categoryID,title,content,topImage,introduction){
@@ -62,7 +87,7 @@ class BlogService extends Service{
             return fmt;
          }
 
-         let updateDate = (new Date()).format("yyyy-M-d h:m:s.S") 
+         let updateDate = (new Date()).format("yyyy-M-d h:m:s") 
 
          const row = { 
             categoryID:categoryID,
@@ -92,7 +117,7 @@ class BlogService extends Service{
 
     //后台的博客文章列表
     async getBlogList(){
-        const sql = "select b.BlogID,c.category_name,b.Title,b.CreateDate,b.UpdateDate,b.Visit"+ 
+        const sql = "select b.BlogID,c.category_name,b.Title,DATE_FORMAT(b.CreateDate,'%Y-%m-%d %h:%i:%s') as CreateDate,b.UpdateDate,b.Visit"+ 
         " from jspang_Blog b LEFT JOIN jspang_category c ON b.categoryID = c.ID ORDER BY b.ID DESC"
         // const results = await this.app.mysql.select('jspang_Blog',{
         //     columns:['BlogID','categoryID','Title','CreateDate','UpdateDate','Visit'],

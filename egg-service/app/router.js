@@ -17,4 +17,8 @@ module.exports = app => {
   //   用户登录
   router.post('/admin/login', controller.user.adminLogin);                           //用户登录的api方法
   router.post('/admin/comparisonTokenID', controller.user.comparisonTokenID);        //比对Token的方法
+
+  //前台使用的api路径
+  router.get('/web/getBlogList', controller.webBlog.getBlogList);              //前台使用的文章列表页面
+
 };

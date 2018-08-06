@@ -41,7 +41,9 @@
                 </el-col>
 
             </el-row>
+
         </div>
+        {{blogContent}}
     </div>
 </template>
 
@@ -49,10 +51,19 @@
     import HeaderTop from '~/components/HeaderTop.vue'
     import Notice from '~/components/Notice.vue'
     import JoinUs from '~/components/JoinUs.vue'
+    import axios from 'axios'
+    import config from '~/serviceApi/serviceApi.js';
     export default {
         components: {
             HeaderTop,Notice,JoinUs
         },
+        async asyncData(context){
+            let blogID = context.params.blogID
+            console.log(11111)
+            // let { data } = await axios.post(config.getBlogContent,{blogID:params.blogID})
+            // return { blogContent:data }
+            //yanfabu123
+        }
     }
 </script>
 
