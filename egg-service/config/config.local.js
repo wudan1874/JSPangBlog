@@ -8,7 +8,7 @@ exports.mysql = {
       // 用户名
       user: "root",
       // 密码
-      password: "00000000",
+      password: "nihonjin",
       // 数据库名
       database: "JSPangBlog"
     },
