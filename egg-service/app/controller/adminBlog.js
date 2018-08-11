@@ -25,8 +25,7 @@ class BlogController extends Controller {
       if(result){
         result = await this.service.blog.addBlog(blogID,categoryID,title,content,topImage,introduction)
       }
-      
-       
+
       this.ctx.body = result
 
   }

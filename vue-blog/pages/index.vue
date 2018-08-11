@@ -6,34 +6,33 @@
         <el-row :gutter="10">
           <el-col :xs="24" :sm="18">
             <div class="blog-top">    最新博文</div>
-            <div class="blog-list">
-
-              <div class="blog-content-item">
-                 <el-row clss="blog-item">
+            <div class="blog-list"> 
+             
+              <div class="blog-content-item" v-for="(item,index) in blogList" :key="index">
+                <nuxt-link :to="{name:'detailed',params:{blogID:item.bolgID}}" >
+                 <el-row clss="blog-item"  >
                     <el-col :xs="8" :sm="6">
-                        <img src="http://jspang.com/wp-content/uploads/2018/04/vuekoa2.jpg" width="100%"/>
+                        <img :src="item.TopImage" width="100%"/>
                     </el-col>
                     <el-col  :xs="16" :sm="18" class="blog-item-text">
                         <div class="blog-title"> 
-                          Vue.js+Koa2移动电商实战视频教程 
+                         {{item.Title}}
                           <span class="blog-sub-title">(更新到43集)</span></div>
                         <div class="blog-dd">
-                            2018-4-15 
+                           {{item.CreateDate}}
                         </div>
                         <el-row>
                           <el-col :xs="0" :sm="24" class="blog-jianjie">
-                            课程说明 这个教程将全面讲解Vue+Koa的实战项目，
-                            学完本教程能成为以前端技术为主的全栈程序员。
-                            这套课程总时长会超过20小时，每节课会控制在15分钟左右。 – 文字版教程免费：
-                            一分钱不花你也可以学习全部内容，可能稍微辛苦一点...
+                            {{item.Introduction}}
                           </el-col>
                         </el-row>
                       
                     </el-col>
                   </el-row>
+                  </nuxt-link>
               </div>
              
-
+                
 
             </div>
           </el-col>
@@ -57,6 +56,8 @@
 import HeaderTop from '~/components/HeaderTop.vue'
 import Notice from '~/components/Notice.vue'
 import JoinUs from '~/components/JoinUs.vue'
+import axios from 'axios'
+import config from '~/serviceApi/serviceApi.js';
 
 export default {
     components: {
@@ -67,6 +68,11 @@ export default {
        
       }
     },
+    async asyncData(){
+       let { data } = await axios.get(config.getBlogList)
+       
+       return {blogList:data}
+    }
 }
 </script>
 
