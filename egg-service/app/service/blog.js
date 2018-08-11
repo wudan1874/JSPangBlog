@@ -19,7 +19,7 @@ class BlogService extends Service{
 
         const sql = "select b.Content,b.TopImage,b.BlogID,c.category_name,b.Title,DATE_FORMAT(b.CreateDate,'%Y-%m-%d %h:%i:%s') as CreateDate,b.UpdateDate,b.Visit,b.Introduction"+ 
         " FROM jspang_Blog b LEFT JOIN jspang_category c ON b.categoryID = c.ID "+
-        " WHERE b.BlogID="+blogID
+        " WHERE b.BlogID='"+blogID+"'"
 
         const result = await this.app.mysql.query(sql)
         return result

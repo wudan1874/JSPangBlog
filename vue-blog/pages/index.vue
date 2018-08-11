@@ -7,12 +7,12 @@
           <el-col :xs="24" :sm="18">
             <div class="blog-top">    最新博文</div>
             <div class="blog-list"> 
-             
               <div class="blog-content-item" v-for="(item,index) in blogList" :key="index">
-                <nuxt-link :to="{name:'detailed',params:{blogID:item.bolgID}}" >
+                <nuxt-link :to="{name:'detailed-blogID',params:{blogID:item.BlogID}}" >
                  <el-row clss="blog-item"  >
                     <el-col :xs="8" :sm="6">
                         <img :src="item.TopImage" width="100%"/>
+                        {{item.blogID}}
                     </el-col>
                     <el-col  :xs="16" :sm="18" class="blog-item-text">
                         <div class="blog-title"> 
@@ -70,7 +70,7 @@ export default {
     },
     async asyncData(){
        let { data } = await axios.get(config.getBlogList)
-       
+     
        return {blogList:data}
     }
 }

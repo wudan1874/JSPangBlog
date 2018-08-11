@@ -20,5 +20,6 @@ module.exports = app => {
 
   //前台使用的api路径
   router.get('/web/getBlogList', controller.webBlog.getBlogList);              //前台使用的文章列表页面
+  router.post('/web/getBlogContent', controller.webBlog.getBlogContent);              //前台使用的文章的内容
 
 };

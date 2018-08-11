@@ -14,19 +14,24 @@ module.exports = {
       ]
     },
     css:[
-      {src:'element-ui/lib/theme-chalk/index.css'}
+      {src:'element-ui/lib/theme-chalk/index.css'},
+      {src:'~/assets/code.css'}
     ],
     /*
     ** Customize the progress bar color
     */
     loading: { color:'#3B8070' },
     
-    plugins: [{src:'~plugins/element-ui', ssr: true}],
+    plugins: [
+      {src:'~plugins/element-ui', ssr: true},
+      {src: '~/plugins/marked.js' },
+      {src:'~plugins/highlight.js'},
+    ],
     /*
     ** Build configuration
     */
     build: {
-      vendor: ['element-ui','axios']
+      vendor: ['element-ui','marked','highlight.js','axios']
     },
     
 

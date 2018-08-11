@@ -1,0 +1,24 @@
+pre{
+    background-color: #F2F6FC;
+    padding:10px;
+    overflow: auto;
+    border-radius:3px;
+    margin-top: 5px;
+    line-height: 20px;
+    font-size:14px;
+}
+.tag{
+    color:#409EFF;
+}
+.keyword{
+    color:#F56C6C;
+}
+.name{
+    color:#409EFF;
+}
+.string{
+    color:#E6A23C;
+}
+.attr{
+    color:red;
+}

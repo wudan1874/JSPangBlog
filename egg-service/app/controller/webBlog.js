@@ -20,7 +20,7 @@ class WebBlogController extends Controller {
   async getBlogContent(){
     const blogID = this.ctx.request.body.blogID
     const result = await this.service.blog.webGetBlogContent(blogID)
-    this.ctx.bodyh = result
+    this.ctx.body = result[0]
   }
 
 }

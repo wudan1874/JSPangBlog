@@ -8,23 +8,16 @@
                 <el-col :xs="24" :sm="18">
                     <div class="main-div">
                         <div  class="bread-nav">
-                        当前位置：技术胖 > 视频教程 > 其他教程 > 正文
+                        当前位置：技术胖 >{{blogContent.category_name}}> 正文
                         </div>
                         <div class="blog-content">
-                            <div class="content-title">TypeScript免费视频教程 ，Deno前置知识</div>
-                            <div class="content-fuzhu"> 2018-07-18  阅读(12977) </div>
+                            <div class="content-title">{{blogContent.Title}}</div>
+                            <div class="content-fuzhu"> {{blogContent.CreateDate}}  阅读({{blogContent.Visit}}) </div>
 
-                            <div class="content-main">
-                                Deno都要来了，还不学TypeScript？<br/>
-                                近日Node.js之父瑞安达尔（Ryan Dahl）发布新的开源项目 deno，从官方介绍来看，
-                                可以认为它是下一代 Node，使用 Go 语言代替 C++ 
-                                重新编写跨平台底层内核驱动，上层仍然使用 V8 引擎，最终提供一个安全的 TypeScript 运行时。<br/>
-
-                                甚至Dahl在公开场合标识Node.js已经无力回天，Deno将是他的代替品。我相信前端小伙伴们一定都听说了这个消息。<br/>
-
-                                Deno开始使用后用TypeScript变成了一个必会的技能，但是很多小
-                                伙伴们还不太熟悉TypeScript的用法。其实TypeScript现在用的已
-                                经很广泛了，无论你使用ng、React还是Vue都可以使用TypeScript来实现的你JavaScript代码。<br/>
+                            <div class="content-main" v-html="articleContent">
+                              
+                               
+                               
                             </div>
                         </div>
                     </div>
@@ -43,11 +36,12 @@
             </el-row>
 
         </div>
-        {{blogContent}}
+       
     </div>
 </template>
 
 <script>
+    import markdown from '~/plugins/marked'
     import HeaderTop from '~/components/HeaderTop.vue'
     import Notice from '~/components/Notice.vue'
     import JoinUs from '~/components/JoinUs.vue'
@@ -59,11 +53,17 @@
         },
         async asyncData(context){
             let blogID = context.params.blogID
-            console.log(11111)
-            // let { data } = await axios.post(config.getBlogContent,{blogID:params.blogID})
-            // return { blogContent:data }
-            //yanfabu123
-        }
+            console.log(blogID)
+            let { data } = await axios.post(config.getBlogContent,{blogID:blogID})
+             return { blogContent:data }
+            
+        },
+        computed:{
+            articleContent () {
+            return markdown(this.blogContent.Content, false, true).html
+         },
+        },
+         
     }
 </script>
 
@@ -103,10 +103,30 @@
         color:#909399;
     }
     .content-main{
-        padding:10px;
+        padding:15px;
         color:#606266;
         font-size:16px;
         line-height: 28px;
     }
+    h1{
+        font-size:22px;
+        color:#F56C6C;
+        height: 60px;
+        line-height: 60px;
+        border-bottom:1px solid #E4E7ED;
+        margin-bottom: 10px;
+    }
+    h2{
+        font-size:20px;
+        color:#606266;
+        font-weight:600;
+        height: 50px;
+        line-height: 50px;
+        border-bottom:1px dashed #EBEEF5;
+    }
+   
+    
+    
+
 
 </style>
