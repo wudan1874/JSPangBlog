@@ -82,6 +82,7 @@ export default (content, tags, parseHtml = false) => {
   renderer.heading = headingParse
 
   let html = marked(content, { renderer })
+  console.log(toc)
 
   // 返回解析内容
   return { html, toc }
