@@ -5,7 +5,7 @@
     <div class="content">
         <el-row :gutter="10">
           <el-col :xs="24" :sm="18">
-            <div class="blog-top">    最新博文</div>
+            <div class="blog-top">    文章类别 </div>
             <div class="blog-list"> 
               <div class="blog-content-item" v-for="(item,index) in blogList" :key="index">
                 <nuxt-link :to="{name:'detailed-blogID',params:{blogID:item.BlogID}}" >
@@ -18,7 +18,6 @@
                         <div class="blog-title"> 
                          {{item.Title}}
                          <!-- <span class="blog-sub-title">(更新到43集)</span>-->
-                          
                         </div>
                         <div class="blog-dd">
                            {{item.CreateDate}}
@@ -46,10 +45,6 @@
 
              <!-- 加入我们 -->
              <join-us></join-us>
-             
-             <!--打赏-->
-             <da-shang></da-shang>
-
           </el-col>
 
 
@@ -62,22 +57,23 @@
 import HeaderTop from '~/components/HeaderTop.vue'
 import Notice from '~/components/Notice.vue'
 import JoinUs from '~/components/JoinUs.vue'
-import DaShang from '~/components/DaShang.vue'
 import axios from 'axios'
 import config from '~/serviceApi/serviceApi.js';
 
 export default {
     components: {
-      HeaderTop,Notice,JoinUs,DaShang
+      HeaderTop,Notice,JoinUs
     },
     data() {
       return {
        
       }
     },
-    async asyncData(){
-       let { data } = await axios.get(config.getBlogList)
-     
+    async asyncData(context){
+        let categoryID = context.params.categoryID
+        console.log(categoryID)
+        let { data } = await axios.post(config.getBlogListByCategoryID,{categoryID:categoryID})
+        console.log(data)
        return {blogList:data}
     }
 }
@@ -100,9 +96,6 @@ export default {
     border-radius: 5px;
     margin-top:10px;
     border:1px solid #DCDFE6;
-  }
-  .blog-list a{
-    color:#303133;
   }
   .blog-item{
     
@@ -129,7 +122,6 @@ export default {
   }
   .blog-sub-title{
     color:#F56C6C;
-    font-size:12px;
   }
   .blog-content-item{
     padding:10px;

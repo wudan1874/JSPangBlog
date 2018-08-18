@@ -16,10 +16,11 @@
        
         <el-col :xs='0' :sm="12">
             <ul class="nav-list">
-                <li>首页</li>
-                <li>视频教程</li>
-                <li>前端日志</li>
-                <li>生活趣事</li>
+                <li> <nuxt-link :to="{name:'index'}" >首页 </nuxt-link></li>
+                <li><nuxt-link :to="{name:'category-categoryID',params:{categoryID:1}}" >视频教程</nuxt-link></li>
+                <li><nuxt-link :to="{name:'category-categoryID',params:{categoryID:2}}" >前端日记</nuxt-link></li>
+                <li><nuxt-link :to="{name:'category-categoryID',params:{categoryID:3}}" >职场技能</nuxt-link></li>
+                <li><nuxt-link :to="{name:'category-categoryID',params:{categoryID:4}}" >生活趣事</nuxt-link></li>
                 <li>自我介绍</li>
             </ul>
         </el-col>
@@ -51,6 +52,8 @@ export default {
   .logoDiv{
       float:left;
       padding:6px;
+      margin-right:10px;
+      color:#F56C6C;
 
   }
   .logo{
@@ -59,7 +62,7 @@ export default {
   }
   .logoContent{
       font-size:12px;
-      color:#666;
+      color:#909399;
       padding-top:10px;
   }
   .header{
@@ -70,5 +73,15 @@ export default {
       list-style: none;
       padding:15px 5px;
       float: left;
+  }
+
+  .nav-list > li  a{
+     color:#666;
+     text-decoration:none;
+  }
+
+   .nav-list > li  a:hover{
+     color:#F56C6C;
+     text-decoration:none;
   }
 </style>

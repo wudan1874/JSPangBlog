@@ -26,6 +26,16 @@
                 </el-col>
 
                 <el-col :xs="0" :sm="6" >
+                   
+
+
+                    <!-- 网站公告 -->
+                    <notice></notice>
+
+                    <!-- 加入我们 -->
+                    <join-us></join-us>
+                   
+
                      <!--文章列表-->
                     <div class="toc-list">
                         <div class="toc-list-title">文章目录</div>
@@ -37,14 +47,6 @@
                             </ul>
                         </div>
                     </div>
-
-
-                    <!-- 网站公告 -->
-                    <notice></notice>
-
-                    <!-- 加入我们 -->
-                    <join-us></join-us>
-                   
 
 
                 </el-col>
@@ -157,11 +159,32 @@
         font-size:16px;
         line-height: 28px;
     }
+    .content-main  li{
+       
+        line-height: 40px;
+        padding-bottom:10px;
+    }
+    .content-main  code{
+        color:#303133;
+        background-color: #F2F6FC;
+        display: inline-block;
+        padding:0px 5px;
+        height: 30px;
+        line-height:26px;
+        margin: 4px;
+        border-radius: 3px;
+        border:1px solid #EBEEF5;
+    }
+ 
+    .img-pop{
+        width:100%
+    }
     .toc-list{
         border:1px solid #DCDFE6;
         border-radius: 5px;
          background-color: #fff;
         margin-bottom:10px;
+        margin-top:10px;
     }
     .toc-list-title{
           border-bottom:1px solid #E4E7ED;
@@ -180,7 +203,23 @@
     }
     .toc-list-content li{
        list-style: none;
+       height: 24px;
+       line-height: 24px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap
     }
+    .toc-list-content ul li a:link{
+         text-decoration:none;
+         color:#909399;
+    }
+    .toc-list-content ul li a:visited{
+         color:#909399;
+    }
+    .toc-list-content ul li a:hover {
+        color:#F56C6C;
+        text-decoration:none;
+    } 
 
 
     h2{

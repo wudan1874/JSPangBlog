@@ -26,6 +26,18 @@ class BlogService extends Service{
        
    }
 
+   //前台根据列表编号获取文章
+   async webGetBlogListByCategoryId(categoryID){
+        const sql = "select b.TopImage,b.BlogID,c.category_name,b.Title,DATE_FORMAT(b.CreateDate,'%Y-%m-%d %h:%i:%s') as CreateDate,b.UpdateDate,b.Visit,b.Introduction"+ 
+        " from jspang_Blog b LEFT JOIN jspang_category c ON b.categoryID = c.ID WHERE b.categoryID =  "+ categoryID +
+        " ORDER BY b.ID DESC"
+        
+        console.log(sql)
+        const results = await this.app.mysql.query(sql)
+
+        return results
+   }
+
    
     //后台增加博客文章
     async addBlog(blogID,categoryID,title,content,topImage,introduction){
